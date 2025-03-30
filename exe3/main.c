@@ -33,18 +33,11 @@ void process_task(void *p) {
         if (xQueueReceive(xQueueData, &data, 100)) {
             if (count < 5) {
                 data_arr[count] = data;
-
-
-                if (count == 0) {
-                    media = data;
-                } else if (count == 1) {
-                    media = (data_arr[0] + data_arr[1])/2;
-                } else if (count == 2) {
-                    media = (data_arr[0] + data_arr[1] + data_arr[2])/3;
-                } else if (count == 3) {
-                    media = (data_arr[0] + data_arr[1] + data_arr[2] + data_arr[3])/4;
-                } else if (count == 4) {
+                
+                if (count == 4) {
                     media = (data_arr[0] + data_arr[1] + data_arr[2] + data_arr[3] + data_arr[4])/5;
+                } else {
+                    media = data;
                 }
 
                 count += 1;
