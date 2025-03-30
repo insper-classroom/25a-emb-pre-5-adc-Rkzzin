@@ -25,13 +25,40 @@ void data_task(void *p) {
 
 void process_task(void *p) {
     int data = 0;
+    int data_arr[] = {0, 0, 0, 0, 0};
+    int count = 0;
+    float media = 0;
 
     while (true) {
         if (xQueueReceive(xQueueData, &data, 100)) {
-            // implementar filtro aqui!
+            if (count < 5) {
+                data_arr[count] = data;
 
 
+                if (count == 0) {
+                    media = data;
+                } else if (count == 1) {
+                    media = (data_arr[0] + data_arr[1])/2;
+                } else if (count == 2) {
+                    media = (data_arr[0] + data_arr[1] + data_arr[2])/3;
+                } else if (count == 3) {
+                    media = (data_arr[0] + data_arr[1] + data_arr[2] + data_arr[3])/4;
+                } else if (count == 4) {
+                    media = (data_arr[0] + data_arr[1] + data_arr[2] + data_arr[3] + data_arr[4])/5;
+                }
 
+                count += 1;
+            } else {
+                data_arr[0] = data_arr[1];
+                data_arr[1] = data_arr[2];
+                data_arr[2] = data_arr[3];
+                data_arr[3] = data_arr[4];
+                data_arr[4] = data;
+
+                media = (data_arr[0] + data_arr[1] + data_arr[2] + data_arr[3] + data_arr[4])/5;
+            }
+
+            printf("%f\n", media);
 
             // deixar esse delay!
             vTaskDelay(pdMS_TO_TICKS(50));
